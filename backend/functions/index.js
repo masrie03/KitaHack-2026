@@ -1,32 +1,60 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * const {onCall} = require("firebase-functions/v2/https");
- * const {onDocumentWritten} = require("firebase-functions/v2/firestore");
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
+const functions = require("firebase-functions");
+const express = require("express");
+const cors = require("cors");
+const multer = require("multer");
+const pdfParse = require("pdf-parse");
 
-const {setGlobalOptions} = require("firebase-functions");
-const {onRequest} = require("firebase-functions/https");
-const logger = require("firebase-functions/logger");
+// Setup Express
+const app = express();
+app.use(cors({ origin: true }));
 
-// For cost control, you can set the maximum number of containers that can be
-// running at the same time. This helps mitigate the impact of unexpected
-// traffic spikes by instead downgrading performance. This limit is a
-// per-function limit. You can override the limit for each function using the
-// `maxInstances` option in the function's options, e.g.
-// `onRequest({ maxInstances: 5 }, (req, res) => { ... })`.
-// NOTE: setGlobalOptions does not apply to functions using the v1 API. V1
-// functions should each use functions.runWith({ maxInstances: 10 }) instead.
-// In the v1 API, each function can only serve one request per container, so
-// this will be the maximum concurrent request count.
-setGlobalOptions({ maxInstances: 10 });
+// Setup multer for file uploads
+const upload = multer({ storage: multer.memoryStorage() });
 
-// Create and deploy your first functions
-// https://firebase.google.com/docs/functions/get-started
+// Mock Gemini API call (replace with real call later)
+async function mockGeminiParse(text) {
+  // Here we simulate clause extraction & scenario impacts
+  return [
+    {
+      clause: "Clause 1: Data may be shared with third parties.",
+      impact: {
+        student: "Medium risk: personal info shared with university partners",
+        parent: "Low risk: mostly irrelevant",
+        intern: "High risk: may affect internship eligibility"
+      },
+      risk: "Medium"
+    },
+    {
+      clause: "Clause 2: You agree to automatic attendance tracking.",
+      impact: {
+        student: "High risk: privacy concern",
+        parent: "Low risk",
+        intern: "Medium risk"
+      },
+      risk: "High"
+    }
+  ];
+}
 
-// exports.helloWorld = onRequest((request, response) => {
-//   logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+// Upload endpoint
+app.post("/parsePolicy", upload.single("file"), async (req, res) => {
+  try {
+    if (!req.file) return res.status(400).json({ error: "No file uploaded" });
+
+    // Parse PDF text
+    const dataBuffer = req.file.buffer;
+    const pdfData = await pdfParse(dataBuffer);
+    const text = pdfData.text;
+
+    // Call mock Gemini
+    const result = await mockGeminiParse(text);
+
+    res.json({ clauses: result });
+  } catch (error) {
+    console.error("Error parsing PDF:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// Export as Firebase Function
+exports.parsePolicy = functions.https.onRequest(app);
