@@ -4,7 +4,7 @@ const fs = require("fs");
 const path = require("path");
 
 // PDF location
-const filePath = path.join(__dirname, "../Dataset/source2.pdf");
+const filePath = path.join(__dirname, "../Dataset/source3.pdf");
 
 // Firebase emulator URL (functions)
 const url = "http://127.0.0.1:5001/kitahack-byteme-backend/us-central1/parsePolicy";
