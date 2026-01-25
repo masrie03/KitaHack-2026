@@ -87,7 +87,7 @@ class _ScannerParserScreenState extends State<ScannerParserScreen> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: AppColors.accentBlue.withOpacity(0.05),
-                filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
+        
               ),
             ),
           ),
