@@ -1,0 +1,27 @@
+name: consent_ai
+description: A new Flutter project for Consent AI.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  dotted_border: ^2.0.0
+  google_fonts: ^6.1.0
+  file_picker: ^8.0.0
+  flutter_animate: ^4.2.0
+  lucide_icons: ^0.257.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    # Add assets if needed later
