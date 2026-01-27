@@ -1,0 +1,1 @@
+ /Users/amirunmasriza/KITAHACK/.dart_tool/flutter_build/d110b0cd9e83196cc95c1dc759c2bd79/native_assets.json:  /Users/amirunmasriza/KITAHACK/.dart_tool/hooks_runner/shared/objective_c/build/9f22e6a04e/objective_c.dylib

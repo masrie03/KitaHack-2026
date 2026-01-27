@@ -1,0 +1,78 @@
+Running `(cd /Users/amirunmasriza/.pub-cache/hosted/pub.dev/objective_c-9.2.4/; ANDROID_HOME=/Users/amirunmasriza/Library/Android/sdk TMPDIR=/var/folders/mb/fgbx53kn1199pdw7gjxf0q800000gn/T/ PATH=/Applications/Xcode.app/Contents/SharedFrameworks/SwiftBuild.framework/Versions/A/PlugIns/SWBBuildService.bundle/Contents/PlugIns/SWBUniversalPlatformPlugin.bundle/Contents/Frameworks/SWBUniversalPlatform.framework/Resources:/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin:/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/local/bin:/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/libexec:/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/usr/bin:/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/usr/local/bin:/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/local/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/local/bin:/Users/amirunmasriza/Flutter/flutter/bin/:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/opt/pmk/env/global/bin:/Library/Apple/usr/bin:/usr/local/go/bin HOME=/Users/amirunmasriza /Users/amirunmasriza/Flutter/flutter/bin/cache/dart-sdk/bin/dart --packages=/Users/amirunmasriza/KITAHACK/.dart_tool/package_config.json /Users/amirunmasriza/KITAHACK/.dart_tool/hooks_runner/objective_c/9f22e6a04e7d57ddc53af6565b2f38d4/hook.dill --config=/Users/amirunmasriza/KITAHACK/.dart_tool/hooks_runner/objective_c/9f22e6a04e7d57ddc53af6565b2f38d4/input.json )`.
+INFO: 2026-01-25 21:09:28.650273: Running `/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang --version`.
+
+INFO: 2026-01-25 21:09:28.663981: Running `/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang --version`.
+
+INFO: 2026-01-25 21:09:28.675640: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -target arm64-apple-ios-simulator -c /Users/amirunmasriza/.pub-cache/hosted/pub.dev/objective_c-9.2.4/src/objective_c.c -fpic -I src -o /Users/amirunmasriza/KITAHACK/.dart_tool/hooks_runner/shared/objective_c/build/9f22e6a04e/obj/src/objective_c.c.o
+
+art_api_dl.c.o
+
+INFO: 2026-01-25 21:09:28.675893: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -target arm64-apple-ios-simulator -x objective-c -fobjc-arc -c /Users/amirunmasriza/.pub-cache/hosted/pub.dev/objective_c-9.2.4/src/input_stream_adapter.m -fpic -I src -o /Users/amirunmasriza/KITAHACK/.dart_tool/hooks_runner/shared/objective_c/build/9f22e6a04e/obj/src/input_stream_adapter.m.o
+
+INFO: 2026-01-25 21:09:28.676189: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -target arm64-apple-ios-simulator -x objective-c -fobjc-arc -c /Users/amirunmasriza/.pub-cache/hosted/pub.dev/objective_c-9.2.4/src/objective_c.m -fpic -I src -o /Users/amirunmasriza/KITAHACK/.dart_tool/hooks_runner/shared/objective_c/build/9f22e6a04e/obj/src/objective_c.m.o
+
+INFO: 2026-01-25 21:09:28.676311: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -target arm64-apple-ios-simulator -x objective-c -fobjc-arc -c /Users/amirunmasriza/.pub-cache/hosted/pub.dev/objective_c-9.2.4/src/observer.m -fpic -I src -o /Users/amirunmasriza/KITAHACK/.dart_tool/hooks_runner/shared/objective_c/build/9f22e6a04e/obj/src/observer.m.o
+
+INFO: 2026-01-25 21:09:28.676487: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -target arm64-apple-ios-simulator -x objective-c -fobjc-arc -c /Users/amirunmasriza/.pub-cache/hosted/pub.dev/objective_c-9.2.4/src/protocol.m -fpic -I src -o /Users/amirunmasriza/KITAHACK/.dart_tool/hooks_runner/shared/objective_c/build/9f22e6a04e/obj/src/protocol.m.o
+
+
+
+INFO: 2026-01-25 21:09:28.676648: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -target arm64-apple-ios-simulator -x objective-c -fobjc-arc -c /Users/amirunmasriza/.pub-cache/hosted/pub.dev/objective_c-9.2.4/src/objective_c_bindings_generated.m -fpic -I src -o /Users/amirunmasriza/KITAHACK/.dart_tool/hooks_runner/shared/objective_c/build/9f22e6a04e/obj/src/objective_c_bindings_generated.m.o
+
+INFO: 2026-01-25 21:09:28.793644: 
+INFO: 2026-01-25 21:09:28.793733: 
+INFO: 2026-01-25 21:09:28.793761: Generated /Users/amirunmasriza/KITAHACK/.dart_tool/hooks_runner/shared/objective_c/build/9f22e6a04e/obj/src/observer.m.o
+INFO: 2026-01-25 21:09:28.793887: 
+INFO: 2026-01-25 21:09:28.793898: 
+INFO: 2026-01-25 21:09:28.793906: Generated /Users/amirunmasriza/KITAHACK/.dart_tool/hooks_runner/shared/objective_c/build/9f22e6a04e/obj/src/include/dart_api_dl.c.o
+INFO: 2026-01-25 21:09:28.793960: 
+INFO: 2026-01-25 21:09:28.793968: 
+INFO: 2026-01-25 21:09:28.793977: Generated /Users/amirunmasriza/KITAHACK/.dart_tool/hooks_runner/shared/objective_c/build/9f22e6a04e/obj/src/objective_c.c.o
+
+INFO: 2026-01-25 21:09:28.797973: 
+INFO: 2026-01-25 21:09:28.798010: 
+INFO: 2026-01-25 21:09:28.798021: Generated /Users/amirunmasriza/KITAHACK/.dart_tool/hooks_runner/shared/objective_c/build/9f22e6a04e/obj/src/protocol.m.o
+
+INFO: 2026-01-25 21:09:28.905618: 
+INFO: 2026-01-25 21:09:28.905668: 
+INFO: 2026-01-25 21:09:28.905681: Generated /Users/amirunmasriza/KITAHACK/.dart_tool/hooks_runner/shared/objective_c/build/9f22e6a04e/obj/src/ns_number.m.o
+
+INFO: 2026-01-25 21:09:28.916531: 
+INFO: 2026-01-25 21:09:28.916564: 
+INFO: 2026-01-25 21:09:28.916574: Generated /Users/amirunmasriza/KITAHACK/.dart_tool/hooks_runner/shared/objective_c/build/9f22e6a04e/obj/src/input_stream_adapter.m.o
+
+INFO: 2026-01-25 21:09:28.916905: 
+INFO: 2026-01-25 21:09:28.916971: 
+INFO: 2026-01-25 21:09:28.916986: Generated /Users/amirunmasriza/KITAHACK/.dart_tool/hooks_runner/shared/objective_c/build/9f22e6a04e/obj/src/objective_c.m.o
+
+INFO: 2026-01-25 21:09:28.943369: 
+INFO: 2026-01-25 21:09:28.943401: /Users/amirunmasriza/.pub-cache/hosted/pub.dev/objective_c-9.2.4/src/objective_c_bindings_generated.m:82:9: warning: 'NSItemProviderRepresentationVisibility' is only available on iOS 11.0 or newer [-Wunguarded-availability-new]
+   82 | typedef NSItemProviderRepresentationVisibility  (^_ProtocolTrampoline_1)(void * sel, id arg1);
+      |         ^
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSItemProvider.h:16:28: note: 'NSItemProviderRepresentationVisibility' has been marked as being introduced in iOS 11.0 here, but the deployment target is iOS 7.0.0
+   16 | typedef NS_ENUM(NSInteger, NSItemProviderRepresentationVisibility) {
+      |                            ^
+/Users/amirunmasriza/.pub-cache/hosted/pub.dev/objective_c-9.2.4/src/objective_c_bindings_generated.m:82:51: note: annotate '_ProtocolTrampoline_1' with an availability attribute to silence this warning
+   82 | typedef NSItemProviderRepresentationVisibility  (^_ProtocolTrampoline_1)(void * sel, id arg1);
+      |                                                   ^
+/Users/amirunmasriza/.pub-cache/hosted/pub.dev/objective_c-9.2.4/src/objective_c_bindings_generated.m:84:1: warning: 'NSItemProviderRepresentationVisibility' is only available on iOS 11.0 or newer [-Wunguarded-availability-new]
+   84 | NSItemProviderRepresentationVisibility  _1wx624s_protocolTrampoline_1ldqghh(id target, void * sel, id arg1) {
+      | ^
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSItemProvider.h:16:28: note: 'NSItemProviderRepresentationVisibility' has been marked as being introduced in iOS 11.0 here, but the deployment target is iOS 7.0.0
+   16 | typedef NS_ENUM(NSInteger, NSItemProviderRepresentationVisibility) {
+      |                            ^
+/Users/amirunmasriza/.pub-cache/hosted/pub.dev/objective_c-9.2.4/src/objective_c_bindings_generated.m:84:41: note: annotate '_1wx624s_protocolTrampoline_1ldqghh' with an availability attribute to silence this warning
+   83 | __attribute__((visibility("default"))) __attribute__((used))
+   84 | NSItemProviderRepresentationVisibility  _1wx624s_protocolTrampoline_1ldqghh(id target, void * sel, id arg1) {
+      |                                         ^
+2 warnings generated.
+
+INFO: 2026-01-25 21:09:28.943413: Generated /Users/amirunmasriza/KITAHACK/.dart_tool/hooks_runner/shared/objective_c/build/9f22e6a04e/obj/src/objective_c_bindings_generated.m.o
+
+INFO: 2026-01-25 21:09:28.943632: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -shared -Wl,-encryptable -undefined dynamic_lookup -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -target arm64-apple-ios-simulator /Users/amirunmasriza/KITAHACK/.dart_tool/hooks_runner/shared/objective_c/build/9f22e6a04e/obj/src/include/dart_api_dl.c.o /Users/amirunmasriza/KITAHACK/.dart_tool/hooks_runner/shared/objective_c/build/9f22e6a04e/obj/src/objective_c.c.o /Users/amirunmasriza/KITAHACK/.dart_tool/hooks_runner/shared/objective_c/build/9f22e6a04e/obj/src/input_stream_adapter.m.o /Users/amirunmasriza/KITAHACK/.dart_tool/hooks_runner/shared/objective_c/build/9f22e6a04e/obj/src/objective_c.m.o /Users/amirunmasriza/KITAHACK/.dart_tool/hooks_runner/shared/objective_c/build/9f22e6a04e/obj/src/observer.m.o /Users/amirunmasriza/KITAHACK/.dart_tool/hooks_runner/shared/objective_c/build/9f22e6a04e/obj/src/ns_number.m.o /Users/amirunmasriza/KITAHACK/.dart_tool/hooks_runner/shared/objective_c/build/9f22e6a04e/obj/src/protocol.m.o /Users/amirunmasriza/KITAHACK/.dart_tool/hooks_runner/shared/objective_c/build/9f22e6a04e/obj/src/objective_c_bindings_generated.m.o -o /Users/amirunmasriza/KITAHACK/.dart_tool/hooks_runner/shared/objective_c/build/9f22e6a04e/objective_c.dylib
+
+INFO: 2026-01-25 21:09:28.968304: 
+INFO: 2026-01-25 21:09:28.968345: ld: warning: -undefined dynamic_lookup is deprecated on iOS-simulator
+
+INFO: 2026-01-25 21:09:28.968353: Generated /Users/amirunmasriza/KITAHACK/.dart_tool/hooks_runner/shared/objective_c/build/9f22e6a04e/objective_c.dylib
+
