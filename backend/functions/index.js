@@ -77,7 +77,7 @@ async function analyzeWithGemini(text) {
     });
 
     const generationConfig = {
-        temperature: 0.1,
+        temperature: 0.0,
         maxOutputTokens: 8000,
         responseMimeType: "application/json",
     };
@@ -87,12 +87,17 @@ async function analyzeWithGemini(text) {
   Analyze this Loan Agreement using the CUAD-inspired checklist:
   ${Object.entries(CUAD_LOAN_CHECKLIST).map(([k, v]) => `- ${k}: ${v}`).join("\n")}
 
-  ADDITIONAL CRITICAL DATA:
-  - Find the 'Repayment Start' condition (e.g., 6 months after grad).
+ADDITIONAL CRITICAL DATA:
+  - Find the 'Repayment Start' condition or 'Coverage Period'.
   - Check for 'Guarantor' requirements.
-  - Look for 'First Class Honours' or 'Excellence' waivers (Malaysian specific).
+  - Look for 'First Class Honours' waivers or 'Deductibles'.
 
-  FORMAT: Return a JSON array of objects with "category", "clause", "explanation", and "risk_level" (Low, Medium, High).
+  FORMAT: Return a JSON array of objects. Each object MUST have these EXACT keys:
+  1. "category": The name of the clause.
+  2. "clause": The actual text from the document.
+  3. "explanation": A simple summary of what it means.
+  4. "risk_level": Low, Medium, or High.
+  5. "recommendation": A specific, actionable advice for a student on what to do about this clause.
   
   TEXT: ${text.substring(0, 15000)}
 `;

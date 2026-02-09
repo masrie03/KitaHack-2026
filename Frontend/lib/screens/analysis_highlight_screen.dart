@@ -6,57 +6,92 @@ import '../widgets/clause_card.dart';
 import '../widgets/insight_bottom_sheet.dart';
 
 class AnalysisHighlightScreen extends StatelessWidget {
-  // We add this variable so the Scanner screen has a place to "plug in" the data
   final dynamic analysisData;
 
   const AnalysisHighlightScreen({
     Key? key,
-    this.analysisData, // Making it optional (?) so it doesn't break anything
+    required this.analysisData,
   }) : super(key: key);
 
-  // Your original Mock Data
-  final List<Clause> clauses = const [
-    Clause(
-      title: "Data Privacy & Access",
-      text:
-          "This agreement grants the Company unlimited access to your personal data, including but not limited to contact information, browsing history, location data, and biometric information.",
-      riskLevel: RiskLevel.high,
-      plainEnglishExplanation:
-          "This clause gives the company permission to collect almost any data about you, including sensitive things like where you are and your physical characteristics (biometrics).",
-      recommendation:
-          "This is highly invasive. We recommend requesting this clause be removed or significantly limited to only data necessary for the service.",
-    ),
-    Clause(
-      title: "Dispute Resolution",
-      text:
-          "The parties agree to resolve disputes through binding arbitration rather than court proceedings.",
-      riskLevel: RiskLevel.medium,
-      plainEnglishExplanation:
-          "You cannot sue the company in a regular court or join a class action lawsuit. You must use a private arbitrator.",
-      recommendation:
-          "This limits your legal rights. If possible, opt-out of arbitration or negotiate for the right to sue for small claims.",
-    ),
-    Clause(
-      title: "Entire Agreement",
-      text:
-          "This document constitutes the entire agreement between the parties and supersedes all prior negotiations and understandings.",
-      riskLevel: RiskLevel.low,
-      plainEnglishExplanation:
-          "This is a standard legal clause that ensures the written agreement is the complete and final version, preventing reliance on verbal promises.",
-      recommendation:
-          "This is a standard protective clause. Ensure all important terms are included in the written document.",
-    ),
-    Clause(
-      title: "Modification of Terms",
-      text:
-          "The Company reserves the right to modify these terms at any time without prior notice. Continued use of the service constitutes acceptance of modified terms.",
-      riskLevel: RiskLevel.high,
-      plainEnglishExplanation:
-          "They can change the rules whenever they want without telling you, and if you keep using the app, you automatically agree to the new rules.",
-      recommendation:
-          "This is unfair. You should ask for a requirement that they notify you of material changes via email.",
-    ),
-  ];
+  /// --- REAL DATA MAPPING & FILTERING ---
+  List<Clause> getRealClauses() {
+    if (analysisData == null || analysisData['clauses'] == null) {
+      return []; // Return empty instead of mock data
+    }
+
+    final List<dynamic> rawList = analysisData['clauses'];
+
+    try {
+      // 1. Filter out the "Not found" / "N/A" noise from the Cuad-v1 benchmark
+      return rawList.where((item) {
+        final String clauseText = item['clause']?.toString().toLowerCase() ?? '';
+        final String riskLevel = item['risk_level']?.toString().toLowerCase() ?? '';
+
+        bool isNotFound = clauseText.contains("not found") || 
+                         clauseText.contains("not applicable") ||
+                         clauseText.contains("not explicitly stated");
+        
+        bool isMismatch = riskLevel.contains("n/a") || riskLevel.contains("mismatch");
+
+        return !isNotFound && !isMismatch;
+      }).map((item) {
+        // 2. Map the actual backend keys to your Clause model
+        final rawRisk = item['risk_level'] ?? item['riskLevel'] ?? item['risk'];
+        
+        return Clause(
+          title: item['category']?.toString() ?? 'Insurance Clause',
+          text: item['clause']?.toString() ?? '',
+          riskLevel: _parseRisk(rawRisk?.toString()),
+          plainEnglishExplanation: item['explanation']?.toString() ?? 'Analyzing details...',
+          recommendation: item['recommendation']?.toString() ?? 'Review carefully.',
+        );
+      }).toList();
+    } catch (e) {
+      debugPrint("❌ Mapping Error: $e");
+      return [];
+    }
+  }
+
+  RiskLevel _parseRisk(String? level) {
+    if (level == null) return RiskLevel.low;
+    final normalized = level.toLowerCase().trim();
+    if (normalized.contains('high')) return RiskLevel.high;
+    if (normalized.contains('medium') || normalized.contains('mod')) return RiskLevel.medium;
+    return RiskLevel.low;
+  }
+
+  /// --- UI SUMMARY HEADER ---
+  Widget _buildSummaryHeader(List<Clause> clauses) {
+    final highCount = clauses.where((c) => c.riskLevel == RiskLevel.high).length;
+    final medCount = clauses.where((c) => c.riskLevel == RiskLevel.medium).length;
+
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10)],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          _summaryItem("High Risk", highCount, Colors.red),
+          _summaryItem("Medium Risk", medCount, Colors.orange),
+          _summaryItem("Identified", clauses.length, AppColors.primaryNavy),
+        ],
+      ),
+    );
+  }
+
+  Widget _summaryItem(String label, int count, Color color) {
+    return Column(
+      children: [
+        Text("$count", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: color)),
+        Text(label, style: const TextStyle(fontSize: 12, color: Colors.grey)),
+      ],
+    );
+  }
 
   void _showInsight(BuildContext context, Clause clause) {
     showModalBottomSheet(
@@ -69,6 +104,9 @@ class AnalysisHighlightScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List<Clause> realClauses = getRealClauses();
+    final String fileName = analysisData?['filename'] ?? "Document Analysis";
+
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
@@ -78,60 +116,18 @@ class AnalysisHighlightScreen extends StatelessWidget {
           icon: const Icon(Icons.arrow_back, color: AppColors.primaryNavy),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text(
-          "Document Analysis",
-          style: AppTextStyles.subHeader.copyWith(color: AppColors.primaryNavy),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.file_copy_outlined, color: AppColors.primaryNavy),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: const Icon(Icons.share_outlined, color: AppColors.primaryNavy),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: const Icon(Icons.settings_outlined, color: AppColors.primaryNavy),
-            onPressed: () {},
-          ),
-        ],
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1),
-          child: Container(color: Colors.grey[200], height: 1),
-        ),
+        title: Text("Analysis Results", style: AppTextStyles.subHeader.copyWith(color: AppColors.primaryNavy)),
       ),
       body: Column(
         children: [
-          // Status Bar
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-            color: const Color(0xffF5F7FA),
-            child: Row(
-              children: [
-                const Icon(Icons.check_circle, color: AppColors.primaryNavy, size: 20),
-                const SizedBox(width: 8),
-                Text(
-                  "Analysis Complete",
-                  style: AppTextStyles.body.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.primaryNavy,
-                  ),
-                ),
-                const Spacer(),
-                Text(
-                  "${clauses.length} clauses analyzed",
-                  style: AppTextStyles.caption,
-                ),
-              ],
-            ),
-          ),
+          // Dynamic Summary Header
+          if (realClauses.isNotEmpty) _buildSummaryHeader(realClauses),
 
-          // List of Clauses
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.all(20),
-              itemCount: clauses.length + 1,
+              // +1 for the Header Title item
+              itemCount: realClauses.isEmpty ? 1 : realClauses.length + 1,
               itemBuilder: (context, index) {
                 if (index == 0) {
                   return Padding(
@@ -140,81 +136,67 @@ class AnalysisHighlightScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Terms of Service Agreement",
+                          fileName,
                           style: AppTextStyles.header.copyWith(
                             color: AppColors.primaryNavy,
-                            fontSize: 26,
+                            fontSize: 24,
                           ),
                         ),
                         const SizedBox(height: 8),
-                        Text(
-                          "Last updated: January 2026",
-                          style: AppTextStyles.caption,
-                        ),
+                        Text("Medical Takaful Assessment", style: AppTextStyles.caption),
                       ],
                     ),
                   );
                 }
 
+                if (realClauses.isEmpty) {
+                  return const Center(child: Text("No relevant medical clauses found."));
+                }
+
+                final currentClause = realClauses[index - 1];
                 return ClauseCard(
-                  clause: clauses[index - 1],
-                  onTap: () => _showInsight(context, clauses[index - 1]),
+                  clause: currentClause,
+                  onTap: () => _showInsight(context, currentClause),
                 );
               },
             ),
           ),
 
-          // Bottom Actions
-          Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
+          // Action Buttons
+          if (realClauses.isNotEmpty)
+            Container(
+              padding: const EdgeInsets.all(20),
               color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
-                  blurRadius: 10,
-                  offset: const Offset(0, -5),
+              child: SafeArea(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primaryNavy,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        ),
+                        child: Text("Accept Fully", style: AppTextStyles.button),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: () {},
+                        style: OutlinedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          side: const BorderSide(color: AppColors.primaryNavy),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        ),
+                        child: Text("Modify", style: AppTextStyles.button.copyWith(color: AppColors.primaryNavy)),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            child: SafeArea(
-              child: Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primaryNavy,
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        elevation: 0,
-                      ),
-                      child: Text("Accept Fully", style: AppTextStyles.button),
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: () {},
-                      style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        side: const BorderSide(color: AppColors.primaryNavy, width: 1.5),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      child: Text(
-                        "Modify Consent",
-                        style: AppTextStyles.button.copyWith(color: AppColors.primaryNavy),
-                      ),
-                    ),
-                  ),
-                ],
               ),
             ),
-          ),
         ],
       ),
     );
