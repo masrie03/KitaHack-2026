@@ -76,8 +76,8 @@ class AnalysisHighlightScreen extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _summaryItem("High Risk", highCount, Colors.red),
-          _summaryItem("Medium Risk", medCount, Colors.orange),
+          _summaryItem("High Risk", highCount, Colors.white),
+          _summaryItem("Medium Risk", medCount, Colors.white),
           _summaryItem("Identified", clauses.length, AppColors.primaryNavy),
         ],
       ),
