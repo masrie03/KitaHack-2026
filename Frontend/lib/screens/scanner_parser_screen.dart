@@ -5,7 +5,6 @@ import '../theme/app_colors.dart';
 import '../theme/app_text_styles.dart';
 import '../widgets/upload_zone.dart';
 import '../widgets/processing_indicator.dart';
-import '../widgets/glass_card.dart';
 import 'analysis_highlight_screen.dart';
 
 // 1. The StatefulWidget (The external "shell")
@@ -93,12 +92,18 @@ class _ScannerParserScreenState extends State<ScannerParserScreen> {
                   const SizedBox(height: 40),
                   
                   // Action Buttons
-                  _ActionButton(
-                    icon: Icons.camera_alt_rounded,
-                    label: "Scan with Camera",
-                    onTap: () {},
+                  Visibility(
+                    visible: false,
+                    child: _ActionButton(
+                      icon: Icons.camera_alt_rounded,
+                      label: "Scan with Camera",
+                      onTap: () {},
+                    ),
                   ),
-                  const SizedBox(height: 16),
+                  Visibility(
+                    visible: false,
+                    child: const SizedBox(height: 16),
+                  ),
                   _ActionButton(
                     icon: Icons.folder_open_rounded,
                     label: "Choose from Files",

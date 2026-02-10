@@ -162,38 +162,41 @@ class AnalysisHighlightScreen extends StatelessWidget {
             ),
           ),
 
-          // Action Buttons
+          // Action Buttons 
           if (realClauses.isNotEmpty)
-            Container(
-              padding: const EdgeInsets.all(20),
-              color: Colors.white,
-              child: SafeArea(
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primaryNavy,
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            Visibility(
+              visible: false,
+              child: Container(
+                padding: const EdgeInsets.all(20),
+                color: Colors.white,
+                child: SafeArea(
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primaryNavy,
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                          ),
+                          child: Text("Accept Fully", style: AppTextStyles.button),
                         ),
-                        child: Text("Accept Fully", style: AppTextStyles.button),
                       ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: OutlinedButton(
-                        onPressed: () {},
-                        style: OutlinedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          side: const BorderSide(color: AppColors.primaryNavy),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: OutlinedButton(
+                          onPressed: () {},
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            side: const BorderSide(color: AppColors.primaryNavy),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                          ),
+                          child: Text("Modify", style: AppTextStyles.button.copyWith(color: AppColors.primaryNavy)),
                         ),
-                        child: Text("Modify", style: AppTextStyles.button.copyWith(color: AppColors.primaryNavy)),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
