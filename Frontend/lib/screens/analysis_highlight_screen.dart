@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:translator/translator.dart';
 import '../models/clause.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_text_styles.dart';
 import '../widgets/clause_card.dart';
 import '../widgets/insight_bottom_sheet.dart';
 
-class AnalysisHighlightScreen extends StatelessWidget {
+class AnalysisHighlightScreen extends StatefulWidget {
   final dynamic analysisData;
 
   const AnalysisHighlightScreen({
@@ -13,16 +14,26 @@ class AnalysisHighlightScreen extends StatelessWidget {
     required this.analysisData,
   }) : super(key: key);
 
+  @override
+  State<AnalysisHighlightScreen> createState() => _AnalysisHighlightScreenState();
+}
+
+class _AnalysisHighlightScreenState extends State<AnalysisHighlightScreen> {
+  // --- Translation State ---
+  final GoogleTranslator _translator = GoogleTranslator();
+  bool _isBM = false;
+  bool _isTranslating = false;
+  List<Clause> _translatedClauses = [];
+
   /// --- REAL DATA MAPPING & FILTERING ---
   List<Clause> getRealClauses() {
-    if (analysisData == null || analysisData['clauses'] == null) {
-      return []; // Return empty instead of mock data
+    if (widget.analysisData == null || widget.analysisData['clauses'] == null) {
+      return [];
     }
 
-    final List<dynamic> rawList = analysisData['clauses'];
+    final List<dynamic> rawList = widget.analysisData['clauses'];
 
     try {
-      // 1. Filter out the "Not found" / "N/A" noise from the Cuad-v1 benchmark
       return rawList.where((item) {
         final String clauseText = item['clause']?.toString().toLowerCase() ?? '';
         final String riskLevel = item['risk_level']?.toString().toLowerCase() ?? '';
@@ -35,11 +46,10 @@ class AnalysisHighlightScreen extends StatelessWidget {
 
         return !isNotFound && !isMismatch;
       }).map((item) {
-        // 2. Map the actual backend keys to your Clause model
         final rawRisk = item['risk_level'] ?? item['riskLevel'] ?? item['risk'];
         
         return Clause(
-          title: item['category']?.toString() ?? 'Insurance Clause',
+          title: item['category']?.toString() ?? 'Legal Clause',
           text: item['clause']?.toString() ?? '',
           riskLevel: _parseRisk(rawRisk?.toString()),
           plainEnglishExplanation: item['explanation']?.toString() ?? 'Analyzing details...',
@@ -60,7 +70,49 @@ class AnalysisHighlightScreen extends StatelessWidget {
     return RiskLevel.low;
   }
 
-  /// --- UI SUMMARY HEADER ---
+  /// --- TRANSLATION FUNCTION ---
+  Future<void> _toggleLanguage(List<Clause> originalClauses) async {
+    if (_isBM) {
+      setState(() => _isBM = false);
+      return;
+    }
+
+    if (_translatedClauses.isNotEmpty && _translatedClauses.length == originalClauses.length) {
+      setState(() => _isBM = true);
+      return;
+    }
+
+    setState(() => _isTranslating = true);
+
+    try {
+      List<Clause> translated = [];
+      for (var clause in originalClauses) {
+        var titleT = await _translator.translate(clause.title, to: 'ms');
+        var textT = await _translator.translate(clause.text, to: 'ms');
+        var explanationT = await _translator.translate(clause.plainEnglishExplanation, to: 'ms');
+        var recT = await _translator.translate(clause.recommendation, to: 'ms');
+
+        translated.add(Clause(
+          title: titleT.text,
+          text: textT.text,
+          riskLevel: clause.riskLevel,
+          plainEnglishExplanation: explanationT.text,
+          recommendation: recT.text,
+        ));
+      }
+
+      setState(() {
+        _translatedClauses = translated;
+        _isBM = true;
+        _isTranslating = false;
+      });
+    } catch (e) {
+      setState(() => _isTranslating = false);
+      debugPrint("Translation Error: $e");
+    }
+  }
+
+  /// --- UI COMPONENTS ---
   Widget _buildSummaryHeader(List<Clause> clauses) {
     final highCount = clauses.where((c) => c.riskLevel == RiskLevel.high).length;
     final medCount = clauses.where((c) => c.riskLevel == RiskLevel.medium).length;
@@ -76,8 +128,8 @@ class AnalysisHighlightScreen extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _summaryItem("High Risk", highCount, Colors.white),
-          _summaryItem("Medium Risk", medCount, Colors.white),
+          _summaryItem("High Risk", highCount, Colors.redAccent),
+          _summaryItem("Medium Risk", medCount, Colors.orangeAccent),
           _summaryItem("Identified", clauses.length, AppColors.primaryNavy),
         ],
       ),
@@ -104,104 +156,102 @@ class AnalysisHighlightScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Clause> realClauses = getRealClauses();
-    final String fileName = analysisData?['filename'] ?? "Document Analysis";
+    final List<Clause> englishClauses = getRealClauses();
+    final List<Clause> displayClauses = _isBM ? _translatedClauses : englishClauses;
+    final String fileName = widget.analysisData?['filename'] ?? "Document Analysis";
 
-    return Scaffold(
-      backgroundColor: Colors.grey[50],
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.primaryNavy),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: Text("Analysis Results", style: AppTextStyles.subHeader.copyWith(color: AppColors.primaryNavy)),
-      ),
-      body: Column(
-        children: [
-          // Dynamic Summary Header
-          if (realClauses.isNotEmpty) _buildSummaryHeader(realClauses),
-
-          Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.all(20),
-              // +1 for the Header Title item
-              itemCount: realClauses.isEmpty ? 1 : realClauses.length + 1,
-              itemBuilder: (context, index) {
-                if (index == 0) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          fileName,
-                          style: AppTextStyles.header.copyWith(
-                            color: AppColors.primaryNavy,
-                            fontSize: 24,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text("Medical Takaful Assessment", style: AppTextStyles.caption),
-                      ],
-                    ),
-                  );
-                }
-
-                if (realClauses.isEmpty) {
-                  return const Center(child: Text("No relevant medical clauses found."));
-                }
-
-                final currentClause = realClauses[index - 1];
-                return ClauseCard(
-                  clause: currentClause,
-                  onTap: () => _showInsight(context, currentClause),
-                );
-              },
+    return Stack(
+      children: [
+        Scaffold(
+          backgroundColor: Colors.grey[50],
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            elevation: 0,
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back, color: AppColors.primaryNavy),
+              onPressed: () => Navigator.pop(context),
             ),
+            title: Text("Analysis Results", style: AppTextStyles.subHeader.copyWith(color: AppColors.primaryNavy)),
+            actions: [
+              // Language Toggle
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: TextButton.icon(
+                  onPressed: _isTranslating ? null : () => _toggleLanguage(englishClauses),
+                  icon: const Icon(Icons.translate, 
+                  size: 18,
+                  color:AppColors.primaryNavy ),
+                  label: Text(_isBM ? "EN" : "BM", style: TextStyle(color: AppColors.primaryNavy)),
+                ),
+              ),
+            ],
           ),
+          body: Column(
+            children: [
+              if (displayClauses.isNotEmpty) _buildSummaryHeader(displayClauses),
+              Expanded(
+                child: ListView.builder(
+                  padding: const EdgeInsets.all(20),
+                  itemCount: displayClauses.isEmpty ? 1 : displayClauses.length + 1,
+                  itemBuilder: (context, index) {
+                    if (index == 0) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              fileName,
+                              style: AppTextStyles.header.copyWith(
+                                color: AppColors.primaryNavy,
+                                fontSize: 24,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(_isBM ? "Analisis dokumen yang telah diterjemahkan ke dalam Bahasa Melayu." : "Analysis of the document, translated into Bahasa Malaysia.",
+                                 style: AppTextStyles.caption),
+                          ],
+                        ),
+                      );
+                    }
 
-          // Action Buttons 
-          if (realClauses.isNotEmpty)
-            Visibility(
-              visible: false,
-              child: Container(
-                padding: const EdgeInsets.all(20),
-                color: Colors.white,
-                child: SafeArea(
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primaryNavy,
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                          ),
-                          child: Text("Accept Fully", style: AppTextStyles.button),
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: OutlinedButton(
-                          onPressed: () {},
-                          style: OutlinedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            side: const BorderSide(color: AppColors.primaryNavy),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                          ),
-                          child: Text("Modify", style: AppTextStyles.button.copyWith(color: AppColors.primaryNavy)),
-                        ),
-                      ),
+                    if (displayClauses.isEmpty) {
+                      return const Center(child: Text("No relevant clauses found."));
+                    }
+
+                    final currentClause = displayClauses[index - 1];
+                    return ClauseCard(
+                      clause: currentClause,
+                      onTap: () => _showInsight(context, currentClause),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+        
+        // Loading Overlay for Translation
+        if (_isTranslating)
+          Container(
+            color: Colors.black.withOpacity(0.3),
+            child: Center(
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      CircularProgressIndicator(),
+                      SizedBox(height: 16),
+                      Text("Menterjemah...", style: TextStyle(fontWeight: FontWeight.bold)),
                     ],
                   ),
                 ),
               ),
             ),
-        ],
-      ),
+          ),
+      ],
     );
   }
 }
