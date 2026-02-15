@@ -177,7 +177,7 @@ class InsightBottomSheet extends StatelessWidget {
 
           const SizedBox(height: 16),
 
-          // Our Recommendation
+          // Recommendation (heading removed)
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
@@ -185,32 +185,12 @@ class InsightBottomSheet extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: Colors.grey[300]!),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    const Icon(Icons.thumb_up_alt_outlined,
-                        size: 20, color: AppColors.primaryNavy),
-                    const SizedBox(width: 8),
-                    Text(
-                      "Our Recommendation",
-                      style: AppTextStyles.body.copyWith(
-                        color: AppColors.primaryNavy,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  clause.recommendation,
-                  style: AppTextStyles.body.copyWith(
-                    color: AppColors.secondaryNavy,
-                    fontSize: 15,
-                  ),
-                ),
-              ],
+            child: Text(
+              clause.recommendation,
+              style: AppTextStyles.body.copyWith(
+                color: AppColors.secondaryNavy,
+                fontSize: 15,
+              ),
             ),
           ),
 

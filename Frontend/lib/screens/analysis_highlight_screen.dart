@@ -65,21 +65,24 @@ class AnalysisHighlightScreen extends StatelessWidget {
     final highCount = clauses.where((c) => c.riskLevel == RiskLevel.high).length;
     final medCount = clauses.where((c) => c.riskLevel == RiskLevel.medium).length;
 
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10)],
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _summaryItem("High Risk", highCount, Colors.white),
-          _summaryItem("Medium Risk", medCount, Colors.white),
-          _summaryItem("Identified", clauses.length, AppColors.primaryNavy),
-        ],
+    return Visibility(
+      visible: false,
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10)],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Visibility(visible: false, child: _summaryItem("High Risk", highCount, Colors.red)),
+            Visibility(visible: false, child: _summaryItem("Medium Risk", medCount, Colors.orange)),
+            Visibility(visible: false, child: _summaryItem("Identified", clauses.length, AppColors.primaryNavy)),
+          ],
+        ),
       ),
     );
   }
