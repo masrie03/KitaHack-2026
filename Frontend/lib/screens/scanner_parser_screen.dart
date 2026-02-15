@@ -100,9 +100,9 @@ class _ScannerParserScreenState extends State<ScannerParserScreen> {
                       onTap: () {},
                     ),
                   ),
-                  Visibility(
+                  const Visibility(
                     visible: false,
-                    child: const SizedBox(height: 16),
+                    child: SizedBox(height: 16),
                   ),
                   _ActionButton(
                     icon: Icons.folder_open_rounded,

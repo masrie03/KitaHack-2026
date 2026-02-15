@@ -128,8 +128,8 @@ class _AnalysisHighlightScreenState extends State<AnalysisHighlightScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _summaryItem("High Risk", highCount, Colors.redAccent),
-          _summaryItem("Medium Risk", medCount, Colors.orangeAccent),
+          _summaryItem("High Risk", highCount, Colors.white),
+          _summaryItem("Medium Risk", medCount, Colors.white),
           _summaryItem("Identified", clauses.length, AppColors.primaryNavy),
         ],
       ),
