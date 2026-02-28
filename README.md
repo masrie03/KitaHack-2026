@@ -35,7 +35,7 @@ Before begin,ensure you have the following installed:
 
 Environment Setup <br>
 1. Create the file: In the root of the project, create a file named .env.
-2. Add Configuration: Copy the following template and fill in the values (ask the team lead for the specific keys):
+2. Add Configuration: Copy the following template and fill in the values (user may generate their own API keys):
 API_KEY=your_api_key_here
 BASE_URL=https://api.example.com
 FIREBASE_MESSAGING_SENDER_ID=123456789
@@ -43,7 +43,7 @@ FIREBASE_MESSAGING_SENDER_ID=123456789
 assets:- .env
 
 Running the App <br>
-flutter run 
-cd "backend path"
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass 
-firebase emulators:start
+1. flutter run 
+2. cd "backend path"
+3. Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass 
+4. firebase emulators:start
