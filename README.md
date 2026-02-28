@@ -24,3 +24,27 @@ The system focuses on decision-support, not just summarization. <br>
 License <br>
 This project is developed for academic / competition purposes. <br>
 
+Getting started <br>
+
+Prerequisites <br>
+Before begin,ensure you have the following installed:
+*Flutter SDK: Install Flutter
+*Dart SDK: (Included with Flutter)
+*Firebase CLI: Install Firebase CLI
+*An Editor (VS Code or Android Studio)
+
+Environment Setup <br>
+1. Create the file: In the root of the project, create a file named .env.
+2. Add Configuration: Copy the following template and fill in the values (ask the team lead for the specific keys):
+API_KEY=your_api_key_here
+BASE_URL=https://api.example.com
+FIREBASE_MESSAGING_SENDER_ID=123456789
+3.Verify Asset Registration: Ensure the .env file is listed in your pubspec.yaml:
+assets:
+  - .env
+
+Running the App <br>
+flutter run 
+cd "backend path"
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass 
+firebase emulators:start
