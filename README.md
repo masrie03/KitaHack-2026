@@ -28,10 +28,10 @@ Getting started <br>
 
 Prerequisites <br>
 Before begin,ensure you have the following installed:
-*Flutter SDK: Install Flutter
-*Dart SDK: (Included with Flutter)
-*Firebase CLI: Install Firebase CLI
-*An Editor (VS Code or Android Studio)
+1. Flutter SDK: Install Flutter
+2. Dart SDK: (Included with Flutter)
+3. Firebase CLI: Install Firebase CLI
+4. An Editor (VS Code or Android Studio)
 
 Environment Setup <br>
 1. Create the file: In the root of the project, create a file named .env.
@@ -40,8 +40,7 @@ API_KEY=your_api_key_here
 BASE_URL=https://api.example.com
 FIREBASE_MESSAGING_SENDER_ID=123456789
 3.Verify Asset Registration: Ensure the .env file is listed in your pubspec.yaml:
-assets:
-  - .env
+assets:- .env
 
 Running the App <br>
 flutter run 
