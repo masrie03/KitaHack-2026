@@ -39,7 +39,7 @@ Environment Setup <br>
 API_KEY=your_api_key_here
 BASE_URL=https://api.example.com
 FIREBASE_MESSAGING_SENDER_ID=123456789
-3.Verify Asset Registration: Ensure the .env file is listed in your pubspec.yaml:
+3. Verify Asset Registration: Ensure the .env file is listed in your pubspec.yaml:
 assets:- .env
 
 Running the App <br>
