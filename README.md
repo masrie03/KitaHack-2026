@@ -41,9 +41,9 @@ The backend uses Google Gemini to analyze documents. You must provide your own A
 4. Start the Emulators:
    
 Instead of a .env file for the backend, "inject" your key directly into the terminal session to keep it secure:
-# For macOS/Linux:
+* MacOS/Linux:
 GEMINI_API_KEY=your_actual_key_here firebase emulators:start
-# For Windows (PowerShell):
+* Windows (PowerShell):
 $env:GEMINI_API_KEY="your_actual_key_here"; firebase emulators:start
 
 * Frontend Setup <br>
