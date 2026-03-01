@@ -26,14 +26,14 @@ This project is developed for academic / competition purposes. <br>
 
 -- Getting started -- <br>
 
-* Prerequisites <br>
+# Prerequisites <br>
 Before begin,ensure you have the following installed:
 1. Flutter SDK: Install Flutter
 2. Java (JDK): Required to run Firebase Emulators.
 3. Firebase CLI: Install Firebase CLI
 4. An Editor (VS Code or Android Studio)
 
-* Backend Setup(Firebase) <br>
+# Backend Setup(Firebase) <br>
 The backend uses Google Gemini to analyze documents. You must provide your own API key to run it locally.
 1. Get a Gemini API Key: Generate a free key at Google AI Studio.
 2. Navigate to the backend:cd path/to/your/backend
@@ -46,7 +46,7 @@ GEMINI_API_KEY=your_actual_key_here firebase emulators:start
 * Windows (PowerShell):
 $env:GEMINI_API_KEY="your_actual_key_here"; firebase emulators:start
 
-* Frontend Setup <br>
+# Frontend Setup <br>
 1. Create the file: In the root of the project, create a file named .env.
 2. Add Configuration: Copy the following template and fill in the values (user may generate their own API keys):
 API_KEY=your_api_key_here
@@ -55,5 +55,5 @@ FIREBASE_MESSAGING_SENDER_ID=123456789
 3. Verify Asset Registration: Ensure the .env file is listed in your pubspec.yaml:
 assets:- .env
 
-* Running the App <br>
+# Running the App <br>
 1. flutter run 
