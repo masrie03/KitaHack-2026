@@ -29,11 +29,24 @@ This project is developed for academic / competition purposes. <br>
 * Prerequisites <br>
 Before begin,ensure you have the following installed:
 1. Flutter SDK: Install Flutter
-2. Dart SDK: (Included with Flutter)
+2. Java (JDK): Required to run Firebase Emulators.
 3. Firebase CLI: Install Firebase CLI
 4. An Editor (VS Code or Android Studio)
 
-* Environment Setup <br>
+* Backend Setup(Firebase) <br>
+The backend uses Google Gemini to analyze documents. You must provide your own API key to run it locally.
+1. Get a Gemini API Key: Generate a free key at Google AI Studio.
+2. Navigate to the backend:cd path/to/your/backend
+3. Install Functions Dependencies:cd functions && npm install && cd ..
+4. Start the Emulators:
+   
+Instead of a .env file for the backend, "inject" your key directly into the terminal session to keep it secure:
+# For macOS/Linux:
+GEMINI_API_KEY=your_actual_key_here firebase emulators:start
+# For Windows (PowerShell):
+$env:GEMINI_API_KEY="your_actual_key_here"; firebase emulators:start
+
+* Frontend Setup <br>
 1. Create the file: In the root of the project, create a file named .env.
 2. Add Configuration: Copy the following template and fill in the values (user may generate their own API keys):
 API_KEY=your_api_key_here
@@ -44,6 +57,3 @@ assets:- .env
 
 * Running the App <br>
 1. flutter run 
-2. cd "backend path"
-3. Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass 
-4. firebase emulators:start
